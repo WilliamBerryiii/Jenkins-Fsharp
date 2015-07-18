@@ -162,9 +162,11 @@ module Jenkins =
 
     let GetBuildInfo (configuration:JenkinsConfiguration) (name:string) (number:int) depth =
         let resource = String.Format(BuildInfo, EncodParameter name, number, GetDepth depth)
-        printfn "%A" resource
         let resp = JenkinsOpen resource configuration
         resp
+
+    let GetQueueInfo (configuration:JenkinsConfiguration) = 
+        JenkinsOpen QueueInfo configuration
 
 module test = 
     open Jenkins
@@ -177,3 +179,5 @@ module test =
     let regexJobInfo = Jenkins.GetJobInfoRegex config @"^Test" None
     let quotedParams = Jenkins.EncodParameter "test name"
     let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
+    let getQueueInfo = Jenkins.GetQueueInfo config
+
