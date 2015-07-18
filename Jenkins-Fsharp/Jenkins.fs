@@ -166,7 +166,11 @@ module Jenkins =
         resp
 
     let GetQueueInfo (configuration:JenkinsConfiguration) = 
-        JenkinsOpen QueueInfo configuration
+        let response = JenkinsOpen QueueInfo configuration
+        let qInfo = match response with 
+                    | Success s -> Success ((JsonValue.Parse(s)?items).AsString())
+                    | Failure f -> Failure f
+        qInfo
 
 module test = 
     open Jenkins
