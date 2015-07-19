@@ -8,7 +8,7 @@
     <ProjectGuid>672d7277-2efc-4ae9-b5e2-8ac7ee24dc7a</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Jenkins_Fsharp</RootNamespace>
-    <AssemblyName>Jenkins_Fsharp</AssemblyName>
+    <AssemblyName>Jenkins.Fsharp</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>Jenkins.Fsharp</Name>

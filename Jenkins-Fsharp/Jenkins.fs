@@ -80,7 +80,8 @@ module Jenkins =
                             | Some(depth) -> depth
                             | None -> 0
 
-    let EncodParameter parameter = HttpUtility.UrlPathEncode(parameter)
+    let EncodPath (parameter:string) = HttpUtility.UrlPathEncode(parameter)
+    let EncodQueryString (parameter:string) = HttpUtility.UrlEncode(parameter)
 
     let JenkinsOpen resource (configuration:JenkinsConfiguration) = 
         
@@ -115,13 +116,13 @@ module Jenkins =
         jobs
 
     let GetJobInfo (configuration:JenkinsConfiguration) (name:string) (depth) =
-        let resource = String.Format(JobInfo, (EncodParameter name), GetDepth depth)
+        let resource = String.Format(JobInfo, (EncodPath name), GetDepth depth)
         let resp = JenkinsOpen resource configuration
         resp
 
     let GetJobName (configuration:JenkinsConfiguration) (jobName:string) (depth) =
 
-        let resource = String.Format(JobName, (EncodParameter jobName), GetDepth depth)
+        let resource = String.Format(JobName, (EncodPath jobName), GetDepth depth)
         let response = JenkinsOpen resource configuration
 
         let (|Equals|_|) arg x = if (arg = x) then Some() else None
@@ -136,7 +137,7 @@ module Jenkins =
         resp
     
     let DebugJobInfo (configuration:JenkinsConfiguration) (name:string) =
-        let jobInfo = GetJobInfo configuration (EncodParameter name) (Some 10)
+        let jobInfo = GetJobInfo configuration (EncodPath name) (Some 10)
         let resp = match jobInfo with 
                     | Success s -> 
                         (JsonValue.Parse(s) |> printfn "%A") |> ignore 
@@ -161,7 +162,7 @@ module Jenkins =
         jobInfo
 
     let GetBuildInfo (configuration:JenkinsConfiguration) (name:string) (number:int) depth =
-        let resource = String.Format(BuildInfo, EncodParameter name, number, GetDepth depth)
+        let resource = String.Format(BuildInfo, EncodPath name, number, GetDepth depth)
         let resp = JenkinsOpen resource configuration
         resp
 
@@ -172,16 +173,18 @@ module Jenkins =
                     | Failure f -> Failure f
         qInfo
 
-module test = 
-    open Jenkins
-    let config = JenkinsConfiguration ( baseUri = "http://localhost:8080", userName = "", password = "", timeout = None )
 
-    let jobInfo = Jenkins.GetJobInfo config "Test_stable" None 
-    let jobName = Jenkins.GetJobName config "Test_stable" None 
-    let debugJobInfo = Jenkins.DebugJobInfo config "Test_stable"  
-    let getJobs = Jenkins.GetJobs config
-    let regexJobInfo = Jenkins.GetJobInfoRegex config @"^Test" None
-    let quotedParams = Jenkins.EncodParameter "test name"
-    let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
-    let getQueueInfo = Jenkins.GetQueueInfo config
+//ToDo: Move these to an integration test suite
+//module test = 
+//    open Jenkins
+//    let config = JenkinsConfiguration ( baseUri = "http://localhost:8080", userName = "", password = "", timeout = None )
+//
+//    let jobInfo = Jenkins.GetJobInfo config "Test_stable" None 
+//    let jobName = Jenkins.GetJobName config "Test_stable" None 
+//    let debugJobInfo = Jenkins.DebugJobInfo config "Test_stable"  
+//    let getJobs = Jenkins.GetJobs config
+//    let regexJobInfo = Jenkins.GetJobInfoRegex config @"^Test" None
+//    let quotedParams = Jenkins.EncodParameter "test name"
+//    let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
+//    let getQueueInfo = Jenkins.GetQueueInfo config
 
