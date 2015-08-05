@@ -83,7 +83,7 @@ module Jenkins =
     let EncodPath (parameter:string) = HttpUtility.UrlPathEncode(parameter)
     let EncodQueryString (parameter:string) = HttpUtility.UrlEncode(parameter)
 
-    let JenkinsOpen resource (configuration:JenkinsConfiguration) = 
+    let GetJenkinsRequest resource (configuration:JenkinsConfiguration) = 
         
         let request = String.Format("{0}/{1}", configuration.BaseUri, resource)
         printfn "%A" request
@@ -93,10 +93,13 @@ module Jenkins =
             | (_,_) -> withBasicAuthentication configuration.UserName configuration.Password request
                     
 
-        let response = createRequest Get request 
+        let request = createRequest Get request 
                         |> addAuthorization configuration
-                        |> getResponse
+        request
 
+    let GetResponse (request:Request) =
+
+        let response = request |> getResponse
         let result = match response.StatusCode with 
                         | 200 -> Success response.EntityBody.Value 
                         | 401 | 403 | 500 -> Failure (String.Format("Status Code:{0}; Body: {1} ", response.StatusCode, response.EntityBody))
@@ -105,11 +108,11 @@ module Jenkins =
         result
 
     let GetInfo (configuration:JenkinsConfiguration) = 
-        let resource = JenkinsOpen Info configuration
+        let resource = GetJenkinsRequest Info configuration
         resource 
 
     let GetJobs (configuration:JenkinsConfiguration) =
-        let resp = GetInfo configuration
+        let resp = GetInfo configuration |> GetResponse
         let jobs = match resp with
                     | Success s -> Success ((JsonValue.Parse(s)?jobs).AsArray())
                     | Failure f -> Failure f
@@ -117,13 +120,13 @@ module Jenkins =
 
     let GetJobInfo (configuration:JenkinsConfiguration) (name:string) (depth) =
         let resource = String.Format(JobInfo, (EncodPath name), GetDepth depth)
-        let resp = JenkinsOpen resource configuration
+        let resp = GetJenkinsRequest resource configuration |> GetResponse
         resp
 
     let GetJobName (configuration:JenkinsConfiguration) (jobName:string) (depth) =
 
         let resource = String.Format(JobName, (EncodPath jobName), GetDepth depth)
-        let response = JenkinsOpen resource configuration
+        let response = GetJenkinsRequest resource configuration |> GetResponse
 
         let (|Equals|_|) arg x = if (arg = x) then Some() else None
 
@@ -137,7 +140,7 @@ module Jenkins =
         resp
     
     let DebugJobInfo (configuration:JenkinsConfiguration) (name:string) =
-        let jobInfo = GetJobInfo configuration (EncodPath name) (Some 10)
+        let jobInfo = GetJobInfo configuration (EncodPath name) (Some 10) 
         let resp = match jobInfo with 
                     | Success s -> 
                         (JsonValue.Parse(s) |> printfn "%A") |> ignore 
@@ -163,28 +166,29 @@ module Jenkins =
 
     let GetBuildInfo (configuration:JenkinsConfiguration) (name:string) (number:int) depth =
         let resource = String.Format(BuildInfo, EncodPath name, number, GetDepth depth)
-        let resp = JenkinsOpen resource configuration
-        resp
+        let response = GetJenkinsRequest resource configuration |> GetResponse
+        response
 
     let GetQueueInfo (configuration:JenkinsConfiguration) = 
-        let response = JenkinsOpen QueueInfo configuration
+        let response = GetJenkinsRequest QueueInfo configuration |> GetResponse
         let qInfo = match response with 
                     | Success s -> Success ((JsonValue.Parse(s)?items).AsString())
                     | Failure f -> Failure f
         qInfo
 
+    let CancelQueue (configuration:JenkinsConfiguration) (queueItemId:int)= 
+        let resource = String.Format(CancleQueue, queueItemId)
+        let response = GetJenkinsRequest resource configuration |> GetResponse
+        let cancelInfo = match response with 
+                            | Success s -> Success s
+                            | Failure f -> Success f 
+        cancelInfo
 
-//ToDo: Move these to an integration test suite
-//module test = 
-//    open Jenkins
-//    let config = JenkinsConfiguration ( baseUri = "http://localhost:8080", userName = "", password = "", timeout = None )
-//
-//    let jobInfo = Jenkins.GetJobInfo config "Test_stable" None 
-//    let jobName = Jenkins.GetJobName config "Test_stable" None 
-//    let debugJobInfo = Jenkins.DebugJobInfo config "Test_stable"  
-//    let getJobs = Jenkins.GetJobs config
-//    let regexJobInfo = Jenkins.GetJobInfoRegex config @"^Test" None
-//    let quotedParams = Jenkins.EncodParameter "test name"
-//    let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
-//    let getQueueInfo = Jenkins.GetQueueInfo config
-
+    let GetVersion (configuration:JenkinsConfiguration) = 
+        let response = GetJenkinsRequest Info configuration
+                        |> withHeader (Custom {name="X-Jenkins";value="0.0"} )
+                        |> getResponse // use lib get response so we can unpack the header
+        let version = match response.StatusCode with 
+                        | 200 -> response.Headers.[NonStandard("X-Jenkins")] 
+                        | _ -> String.Format("Error communicating with server {0}", configuration.BaseUri)
+        version

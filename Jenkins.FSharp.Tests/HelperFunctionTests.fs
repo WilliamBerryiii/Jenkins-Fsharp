@@ -19,3 +19,19 @@ type ``When testing a URL escape function `` () =
     [<Test>]
     member this.``a '_' should be encoded with '_' `` () = 
         Jenkins.EncodPath "name_test" |> should equal "name_test"
+
+
+
+//ToDo: Move these to an integration test suite
+//module test = 
+//    open Jenkins
+//    let config = JenkinsConfiguration ( baseUri = "http://localhost:8080", userName = "", password = "", timeout = None )
+//
+//    let jobInfo = Jenkins.GetJobInfo config "Test_stable" None 
+//    let jobName = Jenkins.GetJobName config "Test_stable" None 
+//    let debugJobInfo = Jenkins.DebugJobInfo config "Test_stable"  
+//    let getJobs = Jenkins.GetJobs config
+//    let regexJobInfo = Jenkins.GetJobInfoRegex config @"^Test" None
+//    let quotedParams = Jenkins.EncodParameter "test name"
+//    let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
+//    let getQueueInfo = Jenkins.GetQueueInfo config
