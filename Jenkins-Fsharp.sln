@@ -3,16 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7B6FC626-4C09-4A4E-AA36-D02FFAD37694}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jenkins.Fsharp", "Jenkins-Fsharp\Jenkins.Fsharp.fsproj", "{672D7277-2EFC-4AE9-B5E2-8AC7EE24DC7A}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jenkins.FSharp.Tests", "Jenkins.FSharp.Tests\Jenkins.FSharp.Tests.fsproj", "{9A15E2B9-0780-4A58-AB43-5A2715CD6231}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C72008BB-7785-4671-962C-7B4E370FEE8A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
