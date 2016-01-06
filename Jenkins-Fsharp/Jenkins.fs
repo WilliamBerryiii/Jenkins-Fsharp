@@ -192,3 +192,13 @@ module Jenkins =
                         | 200 -> response.Headers.[NonStandard("X-Jenkins")] 
                         | _ -> String.Format("Error communicating with server {0}", configuration.BaseUri)
         version
+
+    let GetPlugins (configuration:JenkinsConfiguration) = 
+        let resource = String.Format(PluginInfo, 2) 
+        let response = GetJenkinsRequest resource configuration |> GetResponse
+        let plugins = match response with 
+                        | Success s -> 
+                            JsonValue.ParseMultiple(s) 
+                            |> (fun plugin -> plugin)
+                        | Failure f -> Seq.empty
+        plugins

@@ -35,3 +35,4 @@ type ``When testing a URL escape function `` () =
 //    let quotedParams = Jenkins.EncodParameter "test name"
 //    let getBuildInfo = Jenkins.GetBuildInfo config "Test_stable" 4 None
 //    let getQueueInfo = Jenkins.GetQueueInfo config
+//    let getPlugins = Jenkins.GetPlugins config
