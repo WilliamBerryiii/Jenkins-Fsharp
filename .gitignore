@@ -1,4 +1,6 @@
+*.vs
 *.suo
 */bin
 */obj
 /packages
+/.paket/paket.exe
