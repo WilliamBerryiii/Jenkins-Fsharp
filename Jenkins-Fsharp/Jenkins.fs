@@ -154,7 +154,7 @@ module Jenkins =
         version
 
     let GetPlugins (configuration:JenkinsConfiguration) = 
-        let resource = String.Format(PluginInfo, 2) 
+        let resource = String.Format(JenkinsRoutes.PluginInfo, 2) 
         let response = GetJenkinsRequest resource configuration |> GetResponse
         let plugins = match response with 
                         | Success s -> 
@@ -162,7 +162,6 @@ module Jenkins =
                             |> (fun plugin -> plugin)
                         | Failure f -> Seq.empty
         plugins
-        version
 
     let CreateJob (configuration:JenkinsConfiguration) (name:string) (config:string) = 
         let resource = String.Format(JenkinsRoutes.CreateJob, name)
