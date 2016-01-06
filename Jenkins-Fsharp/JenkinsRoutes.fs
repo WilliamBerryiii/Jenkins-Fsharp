@@ -3,8 +3,6 @@
 open System
 open System.Web
 open HttpClient
-open FSharp.Data
-open FSharp.Data.JsonExtensions
 open System.Text.RegularExpressions
 
 module JenkinsRoutes = 
