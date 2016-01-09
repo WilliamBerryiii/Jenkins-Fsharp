@@ -2,8 +2,6 @@
 
 open System
 open System.Web
-open HttpClient
-open System.Text.RegularExpressions
 
 module JenkinsRoutes = 
     [<Literal>]

@@ -1,7 +1,8 @@
 source https://www.nuget.org/api/v2/
 
 nuget Nuget.CommandLine
-nuget FSharp.Core  framework: >= net451
-nuget FSharp.Data  framework: >= net451
-nuget FsUnit framework: >= net451
-nuget Http.fs framework: >= net451
+nuget FSharp.Core redirects: force
+nuget FSharp.Data
+nuget FsUnit
+nuget Http.fs
+nuget FSharpLint

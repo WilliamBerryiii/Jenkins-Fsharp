@@ -1,11 +1,14 @@
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
-    FSharp.Core (4.0.0.1) - framework: >= net451
-    FSharp.Data (2.2.5) - framework: >= net451
-    FsUnit (1.4.1) - framework: >= net451
+    FSharp.Core (4.0.0.1) - redirects: force
+    FSharp.Data (2.2.5)
+      Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+    FSharpLint (0.2.7)
+    FsUnit (1.4.1)
       FSharp.Core (>= 3.1.2.5)
       NUnit (2.6.4)
-    Http.fs (1.5.1) - framework: >= net451
+    Http.fs (1.5.1)
     NuGet.CommandLine (3.3.0)
-    NUnit (2.6.4) - framework: >= net451
+    NUnit (2.6.4)
+    Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
