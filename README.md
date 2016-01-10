@@ -3,3 +3,5 @@
 # Jenkins-Fsharp
 This is an F# wrapper for working with the JenkinsCI ReST API.  It is basically a direct port of the python-jenkins library available here: https://python-jenkins.readthedocs.org/en/latest/
 
+Please visit the (project page)[https://williamberryiii.github.io/Jenkins-Fsharp/index.html] for examples of using the library. 
+
