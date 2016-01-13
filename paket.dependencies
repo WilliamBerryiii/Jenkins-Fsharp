@@ -4,5 +4,5 @@ nuget Nuget.CommandLine
 nuget FSharp.Core redirects: force
 nuget FSharp.Data
 nuget FsUnit
-nuget Http.fs
+nuget Http.fs-prerelease 2.4.1
 nuget FSharpLint
