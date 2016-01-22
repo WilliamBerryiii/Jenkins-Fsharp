@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7B6FC626-4C09-4A4E-AA36-D02FFAD37694}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,6 +11,13 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jenkins.Fsharp", "Jenkins-Fsharp\Jenkins.Fsharp.fsproj", "{672D7277-2EFC-4AE9-B5E2-8AC7EE24DC7A}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Jenkins.FSharp.Tests", "Jenkins.FSharp.Tests\Jenkins.FSharp.Tests.fsproj", "{9A15E2B9-0780-4A58-AB43-5A2715CD6231}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE5F6038-BC97-4170-9369-4C39292AB5A3}"
+	ProjectSection(SolutionItems) = preProject
+		.semver = .semver
+		build.bat = build.bat
+		build.fsx = build.fsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
